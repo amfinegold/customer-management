@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CustomerWidget.Controllers
+namespace CustomerWidget.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

@@ -1,20 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Reflection;
+using CustomerWidget.Common.Configuration;
+using CustomerWidget.Ioc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using SimpleInjector;
+using SimpleInjector.Lifestyles;
 
-namespace CustomerWidget
+namespace CustomerWidget.Api
 {
     public class Startup
     {
+        private readonly Container _container = new Container();
+
+        // Extract file version
+        internal static readonly Lazy<string> FileVersion = new Lazy<string>(() => FileVersionInfo
+            .GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion);
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -25,7 +31,20 @@ namespace CustomerWidget
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            // Setup the container
+            _container.Options.AllowOverridingRegistrations = true;
+            _container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
+
+            IocInitializer.InitializeContainer(_container, FileVersion.Value);
+
+            // Register configuration
+            _container.RegisterInstance(Configuration.GetSection("Database").Get<DatabaseConfig>());
+
+
+            services.AddMvc().AddJsonOptions(options =>
+            {
+                options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
