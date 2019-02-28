@@ -9,6 +9,5 @@ namespace CustomerWidget.Common.Configuration
     public class DatabaseConfig
     {
         public string ConnectionString { get; set; }
-        public string EncryptionKey { get; set; }
     }
 }

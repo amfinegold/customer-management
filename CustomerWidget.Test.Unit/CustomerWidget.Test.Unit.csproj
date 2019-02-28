@@ -12,4 +12,12 @@
     <PackageReference Include="MSTest.TestFramework" Version="1.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\CustomerWidget.Service\CustomerWidget.Service.csproj" />
+    <ProjectReference Include="..\CustomerWidget.Common\CustomerWidget.Common.csproj" />
+    <ProjectReference Include="..\CustomerWidget.Models\CustomerWidget.Models.csproj" />
+    <ProjectReference Include="..\CustomerWidget.Repository\CustomerWidget.Repository.csproj" />
+    <ProjectReference Include="..\CustomerWidget\CustomerWidget.Api.csproj" />
+  </ItemGroup>
+
 </Project>
