@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using CustomerWidget.Models.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CustomerWidget.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("agent")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class AgentController : ControllerBase
     {
         // GET api/values
         [HttpGet]
@@ -23,19 +24,13 @@ namespace CustomerWidget.Api.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] Agent agent)
         {
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void Put(int id, [FromBody] Agent agent)
         {
         }
     }

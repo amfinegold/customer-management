@@ -5,6 +5,6 @@ namespace CustomerWidget.Models.Models
     [ExcludeFromCodeCoverage]
     public class BaseDocument
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
     }
 }

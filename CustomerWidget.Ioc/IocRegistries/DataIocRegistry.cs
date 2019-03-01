@@ -10,6 +10,7 @@ namespace CustomerWidget.Ioc.IocRegistries
         {
             container.Register<IDataSource, DataSource>(Lifestyle.Singleton);
 
+            container.Register<IAgentRepository, AgentRepository>(Lifestyle.Scoped);
             container.Register<ICustomerRepository, CustomerRepository>(Lifestyle.Scoped);
         }
     }
