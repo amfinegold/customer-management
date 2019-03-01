@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using CustomerWidget.Models;
+using CustomerWidget.Models.Models;
 
 namespace CustomerWidget.Repository.Interfaces
 {

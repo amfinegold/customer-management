@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CustomerWidget.Common.Configuration;
 using CustomerWidget.Models;
+using CustomerWidget.Models.Models;
 using CustomerWidget.Repository.Interfaces;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
@@ -24,7 +25,7 @@ namespace CustomerWidget.Repository.Implementations
             var settings = MongoClientSettings
                 .FromUrl(new MongoUrl(config.ConnectionString));
             settings.SslSettings =
-                new SslSettings() { EnabledSslProtocols = SslProtocols.Tls12 };
+                new SslSettings { EnabledSslProtocols = SslProtocols.Tls12 };
 
             var mongoClient = new MongoClient(settings);
             _mongoDb = mongoClient.GetDatabase(DatabaseName);

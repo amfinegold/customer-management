@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Diagnostics.CodeAnalysis;
 
-namespace CustomerWidget.Models
+namespace CustomerWidget.Models.Models
 {
+    [ExcludeFromCodeCoverage]
     public class Agent : BaseDocument
     {
         public string Name { get; set; }
@@ -15,6 +14,7 @@ namespace CustomerWidget.Models
         public ContactPhones Phone { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     public class ContactPhones
     {
         public string Primary { get; set; }
