@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Reflection;
+using CustomerWidget.Common;
 using CustomerWidget.Common.Configuration;
 using CustomerWidget.Ioc;
 using Microsoft.AspNetCore.Builder;
@@ -13,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SimpleInjector;
 using SimpleInjector.Integration.AspNetCore.Mvc;
 using SimpleInjector.Lifestyles;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace CustomerWidget.Api
 {
@@ -56,6 +59,23 @@ namespace CustomerWidget.Api
                 options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc(Constant.ApiVersion,
+                    new Info
+                    {
+                        Title = $"{Constant.ApplicationName} {Constant.ApiVersion}",
+                        Version = Constant.ApiVersion
+                    });
+
+                // Include XML comments in swagger
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
+
+           
+
             // Wires simple injector to native .net core IOC
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -84,7 +104,18 @@ namespace CustomerWidget.Api
             _container.Verify();
 
             app.UseHttpsRedirection();
+
+            app.UseCors("AnyOrigin");
             app.UseMvc();
+
+            // Enable the Swagger UI middleware and the Swagger generator
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint($"/swagger/{Constant.ApiVersion}/swagger.json", $"{Constant.ApplicationName} Service");
+                c.RoutePrefix = string.Empty;
+            });
+
         }
     }
 }
