@@ -8,7 +8,7 @@ namespace CustomerWidget.Models.Models
     public class Customer : BaseDocument
     {
         public int AgentId { get; set; }
-        public UniqueId Guid { get; set; }
+        public string Guid { get; set; }
         public bool IsActive { get; set; }
         public string Balance { get; set; }
         public int Age { get; set; }

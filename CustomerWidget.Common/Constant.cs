@@ -6,6 +6,10 @@ namespace CustomerWidget.Common
     {
         public const string ApiVersion = "v1";
         public const string ApplicationName = "Customer Management";
-        public const string ServiceProjectName = "CustomerWidget.Api";
+
+        public const string DatabaseName = "customerManagementDB";
+
+        public const int DefaultPageSize = 25;
+
     }
 }

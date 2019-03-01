@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Threading.Tasks;
 using CustomerWidget.Models.Models;
+using CustomerWidget.Models.Requests;
+using CustomerWidget.Models.Responses;
+using CustomerWidget.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace CustomerWidget.Api.Controllers
 {
@@ -8,30 +12,64 @@ namespace CustomerWidget.Api.Controllers
     [ApiController]
     public class AgentController : ControllerBase
     {
-        // GET api/values
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        private readonly IAgentService _agentService;
+
+        public AgentController(IAgentService agentService)
         {
-            return new string[] { "value1", "value2" };
+            _agentService = agentService;
+        }
+       
+        /// <summary>
+        /// Gets an agent by id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet, Route("{id}")]
+        [SwaggerResponse(200, description: "Success", type: typeof(Agent))]
+        [SwaggerOperation("get agent")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var result = await _agentService.GetAgentAsync(id);
+            return Ok(result);
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        /// <summary>
+        /// Search customers.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost("search")]
+        [SwaggerResponse(200, description: "Success", type: typeof(SearchResponse<Agent>))]
+        [SwaggerOperation("search agents")]
+        public async Task<SearchResponse<Agent>> SearchAgentsAsync(BaseSearchRequest request)
         {
-            return "value";
+            return await _agentService.SearchAgentsAsync(request);
         }
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody] Agent agent)
+        /// <summary>
+        /// Create a new agent.
+        /// </summary>
+        /// <param name="agent"></param>
+        /// <returns></returns>
+        [HttpPost("")]
+        [SwaggerResponse(200, description: "Success", type: typeof(Agent))]
+        [SwaggerOperation("create agent")]
+        public async Task<Agent> CreateAgentAsync(Agent agent)
         {
+            return await _agentService.CreateAgentAsync(agent);
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Agent agent)
+        /// <summary>
+        /// Update an existing agent.
+        /// </summary>
+        /// <param name="agent"></param>
+        /// <returns></returns>
+        [HttpPut("")]
+        [SwaggerResponse(204, description: "Success")]
+        [SwaggerOperation("update agent")]
+        public async Task UpdateAgentAsync(Agent agent)
         {
+            await _agentService.UpdateAgentAsync(agent);
         }
     }
 }

@@ -8,6 +8,7 @@ obj/
 .vs/
 *.ncrunchproject
 *.ncrunchsolution
+*.crunchsolution
 *.orig
-/_NCrunch_Catering
+/_NCrunch_CustomerWidget/
 packages/

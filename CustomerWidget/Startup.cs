@@ -5,6 +5,7 @@ using System.Reflection;
 using CustomerWidget.Common;
 using CustomerWidget.Common.Configuration;
 using CustomerWidget.Ioc;
+using CustomerWidget.Models.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -12,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Bson.Serialization;
 using SimpleInjector;
 using SimpleInjector.Integration.AspNetCore.Mvc;
 using SimpleInjector.Lifestyles;
@@ -84,6 +86,8 @@ namespace CustomerWidget.Api
 
             services.EnableSimpleInjectorCrossWiring(_container);
             services.UseSimpleInjectorAspNetRequestScoping(_container);
+
+            RegisterBsonClassMaps();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -115,7 +119,27 @@ namespace CustomerWidget.Api
                 c.SwaggerEndpoint($"/swagger/{Constant.ApiVersion}/swagger.json", $"{Constant.ApplicationName} Service");
                 c.RoutePrefix = string.Empty;
             });
+        }
 
+        public void RegisterBsonClassMaps()
+        {
+            if (!BsonClassMap.IsClassMapRegistered(typeof(Agent)))
+            {
+                BsonClassMap.RegisterClassMap<Agent>(map =>
+                {
+                    map.AutoMap();
+                    map.SetIgnoreExtraElements(true);
+                });
+            }
+
+            if (!BsonClassMap.IsClassMapRegistered(typeof(Customer)))
+            {
+                BsonClassMap.RegisterClassMap<Customer>(map =>
+                {
+                    map.AutoMap();
+                    map.SetIgnoreExtraElements(true);
+                });
+            }
         }
     }
 }

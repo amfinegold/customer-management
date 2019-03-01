@@ -8,8 +8,6 @@ namespace CustomerWidget.Ioc.IocRegistries
     {
         public static void Register(Container container)
         {
-            container.Register<IDataSource, DataSource>(Lifestyle.Singleton);
-
             container.Register<IAgentRepository, AgentRepository>(Lifestyle.Scoped);
             container.Register<ICustomerRepository, CustomerRepository>(Lifestyle.Scoped);
         }
