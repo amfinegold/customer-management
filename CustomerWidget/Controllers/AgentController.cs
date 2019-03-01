@@ -41,9 +41,10 @@ namespace CustomerWidget.Api.Controllers
         [HttpPost("search")]
         [SwaggerResponse(200, description: "Success", type: typeof(SearchResponse<Agent>))]
         [SwaggerOperation("search agents")]
-        public async Task<SearchResponse<Agent>> SearchAgentsAsync(BaseSearchRequest request)
+        public async Task<IActionResult> SearchAgentsAsync(BaseSearchRequest request)
         {
-            return await _agentService.SearchAgentsAsync(request);
+            var result = await _agentService.SearchAgentsAsync(request);
+            return Ok(result);
         }
 
         /// <summary>
@@ -54,9 +55,10 @@ namespace CustomerWidget.Api.Controllers
         [HttpPost("")]
         [SwaggerResponse(200, description: "Success", type: typeof(Agent))]
         [SwaggerOperation("create agent")]
-        public async Task<Agent> CreateAgentAsync(Agent agent)
+        public async Task<IActionResult> CreateAgentAsync(Agent agent)
         {
-            return await _agentService.CreateAgentAsync(agent);
+            await _agentService.CreateAgentAsync(agent);
+            return NoContent();
         }
 
         /// <summary>
@@ -67,9 +69,10 @@ namespace CustomerWidget.Api.Controllers
         [HttpPut("")]
         [SwaggerResponse(204, description: "Success")]
         [SwaggerOperation("update agent")]
-        public async Task UpdateAgentAsync(Agent agent)
+        public async Task<IActionResult> UpdateAgentAsync(Agent agent)
         {
             await _agentService.UpdateAgentAsync(agent);
+            return NoContent();
         }
     }
 }

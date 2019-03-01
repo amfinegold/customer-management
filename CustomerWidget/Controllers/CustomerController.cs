@@ -9,7 +9,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace CustomerWidget.Api.Controllers
 {
     [Route("customer")]
-    public class CustomerController
+    public class CustomerController : ControllerBase
     {
         private readonly ICustomerService _customerService;
 
@@ -26,9 +26,10 @@ namespace CustomerWidget.Api.Controllers
         [HttpGet, Route("{id}")]
         [SwaggerResponse(200, description: "Success", type: typeof(Customer))]
         [SwaggerOperation("get customer")]
-        public async Task<Customer> GetCustomerAsync(int id)
+        public async Task<IActionResult> GetCustomerAsync(int id)
         {
-            return await _customerService.GetCustomerAsync(id);
+            var result = await _customerService.GetCustomerAsync(id);
+            return Ok(result);
         }
 
         /// <summary>
@@ -39,9 +40,10 @@ namespace CustomerWidget.Api.Controllers
         [HttpPost("search")]
         [SwaggerResponse(200, description: "Success", type: typeof(SearchResponse<Customer>))]
         [SwaggerOperation("search customers")]
-        public async Task<SearchResponse<Customer>> SearchCustomersAsync(CustomerSearchRequest request)
+        public async Task<IActionResult> SearchCustomersAsync(CustomerSearchRequest request)
         {
-            return await _customerService.SearchCustomersAsync(request);
+            var result = await _customerService.SearchCustomersAsync(request);
+            return Ok(result);
         }
 
         /// <summary>
@@ -50,11 +52,12 @@ namespace CustomerWidget.Api.Controllers
         /// <param name="customer"></param>
         /// <returns></returns>
         [HttpPost("")]
-        [SwaggerResponse(200, description: "Success", type: typeof(Customer))]
+        [SwaggerResponse(204, description: "Success", type: typeof(Customer))]
         [SwaggerOperation("create customer")]
-        public async Task<Customer> CreateCustomerAsync(Customer customer)
+        public async Task<IActionResult> CreateCustomerAsync(Customer customer)
         {
-            return await _customerService.CreateCustomerAsync(customer);
+            await _customerService.CreateCustomerAsync(customer);
+            return NoContent();
         }
 
         /// <summary>
@@ -65,9 +68,10 @@ namespace CustomerWidget.Api.Controllers
         [HttpDelete("")]
         [SwaggerResponse(204, description: "Success")]
         [SwaggerOperation("delete customer")]
-        public async Task DeleteCustomerAsync(int id)
+        public async Task<IActionResult> DeleteCustomerAsync(int id)
         {
             await _customerService.DeleteCustomerAsync(id);
+            return NoContent();
         }
 
         /// <summary>
@@ -78,11 +82,12 @@ namespace CustomerWidget.Api.Controllers
         [HttpPut("")]
         [SwaggerResponse(204, description: "Success")]
         [SwaggerOperation("update customer")]
-        public async Task UpdateCustomerAsync(Customer customer)
+        public async Task<IActionResult> UpdateCustomerAsync(Customer customer)
         {
             await _customerService.UpdateCustomerAsync(customer);
+            return NoContent();
         }
 
-        
+
     }
 }

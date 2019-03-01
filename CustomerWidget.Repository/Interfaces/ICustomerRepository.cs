@@ -9,7 +9,7 @@ namespace CustomerWidget.Repository.Interfaces
     {
         Task<Customer> GetCustomerAsync(int id);
         Task<SearchResponse<Customer>> SearchCustomersAsync(CustomerSearchRequest request);
-        Task<Customer> CreateCustomerAsync(Customer customer);
+        Task CreateCustomerAsync(Customer customer);
         Task DeleteCustomerAsync(int id);
         Task UpdateCustomerAsync(Customer customer);
     }
