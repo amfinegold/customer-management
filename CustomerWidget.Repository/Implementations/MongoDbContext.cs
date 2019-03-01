@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Authentication;
-using System.Text;
+﻿using System.Security.Authentication;
 using CustomerWidget.Common.Configuration;
 using CustomerWidget.Models.Models;
 using CustomerWidget.Repository.Interfaces;
@@ -24,12 +21,12 @@ namespace CustomerWidget.Repository.Implementations
             ConventionRegistry.Register("camelCase", conventionPack, t => true);
 
             var settings = MongoClientSettings
-                .FromUrl(new MongoUrl(config.ConnectionString));
+                .FromUrl(new MongoUrl(_config.ConnectionString));
             settings.SslSettings =
                 new SslSettings { EnabledSslProtocols = SslProtocols.Tls12 };
 
             var mongoClient = new MongoClient(settings);
-            _mongoDb = mongoClient.GetDatabase(config.DatabaseName);
+            _mongoDb = mongoClient.GetDatabase(_config.DatabaseName);
 
             RegisterClassMaps();
         }
@@ -56,6 +53,7 @@ namespace CustomerWidget.Repository.Implementations
                 BsonClassMap.RegisterClassMap<Customer>(map =>
                 {
                     map.AutoMap();
+                    map.MapProperty(x => x.AgentId).SetElementName("agent_id");
                     map.SetIgnoreExtraElements(true);
                 });
             }

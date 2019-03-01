@@ -12,3 +12,4 @@ obj/
 *.orig
 /_NCrunch_CustomerWidget/
 packages/
+*.cache
