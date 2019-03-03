@@ -39,3 +39,18 @@ _KNOWN ISSUES_
 
 - Version conflicts between the CustomerWidget.Api and CustomerWidget.Test.Unit projects - ran out of time to resolve.
 
+
+_NOT YET IMPLEMENTED_
+- global exception-handling to standardize overall error shape and allow differentiation of validatation-specific exceptions, other expected exceptions, and unexpected exceptions (did not have time to complete)
+
+- logging - I've been working primarily with an enterprise logging system and don't have a tremendous amount of insight into what the best loggers out there today are. (under the time constraint, chose to work on existing code rather than take the time needed to research properly)
+
+- security, generally. See in-code comments about CORS.
+
+
+_GENERAL NOTES_
+
+ I approached this knowing that I would very likely run into issues I wouldn't know how to resolve because my experience is overwhelmingly with applications already at the base "everything basic to run/log/handle exceptions/handle access is implemented" level.
+This is one of the first times I've bootstrapped an app, and my first time ever bootstrapping an app connecting to a MongoDB database. Between that and the time limit for the code challenge, there are missing and broken features as outlined in the Known Issues and Not Yet Implemented sections. 
+
+During this challenge, when faced with the choice of spending the limited challenge time researching something I've never had to make a decision about before, implementing an unresearched version that may or may not be in the same zip code as best practices, or simply leaving it for later with a TODO or a note here, I chose the third option. This leaves me with minimal rework to implement each missing feature once I'm able to research and determine the best option for the app, and has the benefit of providing me with a handy checklist of features to consider the next time I'm bootstrapping an application or writing a template to bootstrap APIs against.
